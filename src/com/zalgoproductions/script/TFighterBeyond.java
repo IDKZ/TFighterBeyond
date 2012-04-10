@@ -147,6 +147,7 @@ public class TFighterBeyond extends ActiveScript implements PaintListener, Mouse
 		((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setColor(Color.WHITE);
 		g.setFont(Fonts.BATMAN_FONT.deriveFont(Font.PLAIN, 16));
+
 		if(Paint.shouldPaint()) {
 			g.setColor(Color.GREEN);
 			for(Npc npc : Npcs.getLoaded(Attacking.getNpcFilter())) {   				

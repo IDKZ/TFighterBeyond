@@ -4,13 +4,11 @@ import org.powerbot.game.api.methods.Calculations;
 import org.powerbot.game.api.methods.Settings;
 import org.powerbot.game.api.methods.Tabs;
 import org.powerbot.game.api.methods.Widgets;
-import org.powerbot.game.api.methods.interactive.Npcs;
 import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.util.Filter;
 import org.powerbot.game.api.util.Random;
 import org.powerbot.game.api.util.Time;
 import org.powerbot.game.api.wrappers.interactive.Npc;
-import org.powerbot.game.api.wrappers.interactive.Character;
 import org.powerbot.game.api.wrappers.node.Item;
 import org.powerbot.game.api.wrappers.widget.Widget;
 import org.powerbot.game.api.wrappers.widget.WidgetChild;
@@ -45,23 +43,6 @@ public class Attacking {
 	
 	private static int maxRadius = 10; //TODO CHANGE TO INT MAX_VALUE AFTER WALKING IS FIXED
 
-	public static Npc getInteracting() {
-		Npc npc = null;
-		double dist = 20;
-		for (Npc n : Npcs.getLoaded()) {
-			if (!getNpcFilter().accept(n))
-				continue;
-			Character monsterInter = n.getInteracting();
-			Character playerInter = Players.getLocal().getInteracting();
-			if(monsterInter != null && playerInter != null && playerInter.equals(n) &&
-					Calculations.distance(Players.getLocal().getPosition(), n.getPosition()) < dist) {
-				dist = Calculations.distance(Players.getLocal().getPosition(), n.getPosition());
-				npc = n;
-			}
-		}
-		return npc;
-	}
-	
 	public static Filter<Npc> getNpcFilter() {
 		return new Filter<Npc>() {
 			public boolean accept(Npc npc) {

@@ -7,6 +7,6 @@ import org.powerbot.game.api.methods.interactive.Players;
 
 public class AttackCondition implements Condition {
 	public boolean validate() {
-		return (Attacking.getInteracting() == null || Players.getLocal().isInCombat()) && Npcs.getNearest(Attacking.getNpcFilter()) != null;
+		return (Players.getLocal().getInteracting() == null || Players.getLocal().isInCombat()) && Npcs.getNearest(Attacking.getNpcFilter()) != null;
 	}
 }
