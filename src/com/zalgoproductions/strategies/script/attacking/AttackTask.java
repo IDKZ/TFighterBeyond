@@ -13,7 +13,7 @@ import org.powerbot.game.api.wrappers.interactive.Npc;
 
 public class AttackTask implements Task {
 	public void run() {
-		Npc nearest = Npcs.getNearest(Attacking.getNpcFilter());
+		Npc nearest = Npcs.getNearest(Attacking.NPC_FILTER);
 		if(nearest.isOnScreen()) {
 			nearest.interact("Attack");
 			if(Safespot.useSafespot)
@@ -21,14 +21,14 @@ public class AttackTask implements Task {
 			else {  				
 				long start = System.currentTimeMillis();
 				while (System.currentTimeMillis() - start < 1500 && !Players.getLocal().isMoving() && 
-						Attacking.getNpcFilter().accept(nearest)) {
+						Attacking.NPC_FILTER.accept(nearest)) {
 					Time.sleep(Random.nextInt(50, 200));
 				}
-				while (Players.getLocal().isMoving() && Attacking.getNpcFilter().accept(nearest)) {
+				while (Players.getLocal().isMoving() && Attacking.NPC_FILTER.accept(nearest)) {
 					Time.sleep(Random.nextInt(20, 50));
 				}
 			}
-			if(Attacking.getNpcFilter().accept(nearest)) {
+			if(Attacking.NPC_FILTER.accept(nearest)) {
 				Time.sleep(Random.nextInt(2000, 3000));
 			}
 		} else {

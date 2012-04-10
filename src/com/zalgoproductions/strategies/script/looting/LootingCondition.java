@@ -7,6 +7,6 @@ import org.powerbot.game.api.methods.tab.Inventory;
 
 public class LootingCondition implements Condition {
 	public boolean validate() {
-		return Inventory.getCount() < 28 && GroundItems.getNearest(Looting.getLootFilter()) != null;
+		return Inventory.getCount() < 28 && GroundItems.getNearest(Looting.LOOT_FILTER) != null;
 	}
 }

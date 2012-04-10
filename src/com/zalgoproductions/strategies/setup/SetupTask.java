@@ -6,7 +6,6 @@ import com.zalgoproductions.util.*;
 import com.zalgoproductions.util.paint.Paint;
 import org.powerbot.concurrent.Task;
 import org.powerbot.game.api.methods.interactive.Players;
-import org.powerbot.game.api.util.Time;
 
 import javax.swing.*;
 import java.awt.*;
@@ -266,21 +265,21 @@ public class SetupTask implements Task {
 				misc.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 				{
 					JLabel miscLabel = new JLabel("Miscellaneous Settings");
-//					JLabel alchLabel = new JLabel("Enter the ids/ names of items to alch");
-//					alchBox = new JTextField("");
+					JLabel alchLabel = new JLabel("Enter the ids/ names of items to alch");
+					alchBox = new JTextField("");
 					usePrayer = new JCheckBox("Use Quick Prayers");
 					useBones = new JCheckBox("Bury the bones you loot");
 
 					miscLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-//					alchLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-//					alchBox.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+					alchLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+					alchBox.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 					usePrayer.setAlignmentX(JCheckBox.CENTER_ALIGNMENT);
 					useBones.setAlignmentX(JCheckBox.CENTER_ALIGNMENT);
 					
 
-//					alchBox.setMaximumSize(new Dimension(Integer.MAX_VALUE, alchBox.getPreferredSize().height));
+					alchBox.setMaximumSize(new Dimension(Integer.MAX_VALUE, alchBox.getPreferredSize().height));
 
-//					alchBox.setColumns(25);
+					alchBox.setColumns(25);
 //
 //					if (props.getProperty("alchBox") != null) {
 //						alchBox.setText(props.getProperty("alchBox"));
@@ -297,9 +296,9 @@ public class SetupTask implements Task {
 
 					misc.add(miscLabel);
 					misc.add(new JLabel(" "));
-//					misc.add(alchLabel);
-//					misc.add(alchBox);
-//					misc.add(new JLabel(" "));
+					misc.add(alchLabel);
+					misc.add(alchBox);
+					misc.add(new JLabel(" "));
 					misc.add(usePrayer);
 					misc.add(useBones);
 				}
@@ -397,8 +396,8 @@ public class SetupTask implements Task {
 						}
 					}
 				}
-				Attacking.npcIDs = idList.size() > 0 ? toIntArray(idList.toArray(new Integer[idList.size()])) : new int[0];
-				Attacking.npcNames = nameList.size() > 0 ? nameList.toArray(new String[nameList.size()]) : new String[0];
+				Attacking.setNpcIDs(idList.size() > 0 ? toIntArray(idList.toArray(new Integer[idList.size()])) : new int[0]);
+				Attacking.setNpcNames(nameList.size() > 0 ? nameList.toArray(new String[nameList.size()]) : new String[0]);
 
 				ids = lootBox.getText().split(",");
 				idList = new ArrayList<Integer>();
@@ -414,25 +413,29 @@ public class SetupTask implements Task {
 					}
 				}
 
-				Looting.lootIDs = idList.size() > 0 ? toIntArray(idList.toArray(new Integer[idList.size()])) : new int[0];
-				Looting.lootNames = nameList.size() > 0 ? nameList.toArray(new String[nameList.size()]) : new String[0];
+				Looting.setLootIDs(idList.size() > 0 ? toIntArray(idList.toArray(new Integer[idList.size()])) : new int[0]);
+				Looting.setLootNames(nameList.size() > 0 ? nameList.toArray(new String[nameList.size()]) : new String[0]);
 
-//				ids = alchBox.getText().split(",");
-//				idList = new ArrayList<Integer>();
-//				nameList = new ArrayList<String>();
-//				for (String id1 : ids) {
-//					if (id1 != null && !id1.equals("")) {
-//						try {
-//							int id = Integer.parseInt(id1);
-//							idList.add(id);
-//						} catch (Exception e1) {
-//							nameList.add(id1.toLowerCase());
-//						}
-//					}
-//				}
-//
-//				u.alch.alchIDs = idList.size() > 0 ? toIntArray(idList.toArray(new Integer[idList.size()])) : new int[0];
-//				u.alch.alchNames = nameList.size() > 0 ? nameList.toArray(new String[nameList.size()]) : new String[0];
+				ids = alchBox.getText().split(",");
+				idList = new ArrayList<Integer>();
+				nameList = new ArrayList<String>();
+				for (String id1 : ids) {
+					if (id1 != null && !id1.equals("")) {
+						try {
+							int id = Integer.parseInt(id1);
+							idList.add(id);
+						} catch (Exception e1) {
+							nameList.add(id1.toLowerCase());
+						}
+					}
+				}
+
+				if(idList.size() == 0 && nameList.size() == 0)
+					Alchemy.doAlchemy = false;
+				else
+					Alchemy.doAlchemy = true;
+				Alchemy.setAlchIDs(idList.size() > 0 ? toIntArray(idList.toArray(new Integer[idList.size()])) : new int[0]);
+				Alchemy.setAlchNames(nameList.size() > 0 ? nameList.toArray(new String[nameList.size()]) : new String[0]);
 
 
 

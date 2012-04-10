@@ -10,11 +10,9 @@ import org.powerbot.game.api.util.Random;
 import org.powerbot.game.api.util.Time;
 import org.powerbot.game.api.wrappers.node.GroundItem;
 
-import java.util.logging.Logger;
-
 public class LootingTask implements Task {
 	public void run() {
-		GroundItem nearest = GroundItems.getNearest(Looting.getLootFilter());
+		GroundItem nearest = GroundItems.getNearest(Looting.LOOT_FILTER);
 		if(nearest.isOnScreen()) {
 			int count = Inventory.getCount();
 			Looting.takeitem(nearest);

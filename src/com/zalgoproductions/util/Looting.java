@@ -14,13 +14,41 @@ import org.powerbot.game.api.wrappers.node.Item;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 public class Looting {
-	public static int[] lootIDs = {};
-	public static String[] lootNames = {};
+	private static int[] lootIDs = {};
+	private static String[] lootNames = {};
 	private static int maxRadius = 10; //TODO SET TO INTEGER.MAX_VALUE AFTER WALKING IS FIXED
 	private static HashMap<String, Integer> lootTaken = new HashMap<String, Integer>();
+
+	public static final Filter<GroundItem> LOOT_FILTER =
+			new Filter<GroundItem>() {
+				public boolean accept(GroundItem item) {
+					if(Calculations.distance(Players.getLocal().getPosition(), item.getPosition()) < maxRadius) {
+						for(int id : lootIDs) {
+							if (item.getGroundItem().getId() == id) {
+								return true;
+							}
+						}
+						for(String name : lootNames) {
+							if(item.getGroundItem() != null && item.getGroundItem().getDefinition() != null && item.getGroundItem().getDefinition().getName() != null) {
+								if(item.getGroundItem().getDefinition().getName().toLowerCase().contains(name.toLowerCase())) {
+									return true;
+								}
+							}
+						}
+					}
+					return false;
+				}
+			};
+
+	public static void setLootIDs(int[] ids) {
+		lootIDs = ids;
+	}
+	
+	public static void setLootNames(String[] names) {
+		lootNames = names;
+	}
 
 	//Author: Zasz
 	public static void takeitem(GroundItem item) {
@@ -43,33 +71,12 @@ public class Looting {
 		}
 
 		if(taken) {
-//			Logger logger = Logger.getLogger("Looting");
-//			logger.info("Loot Taken!: " + item.getGroundItem().getName() + ": " + item.getGroundItem().getStackSize());
 			addLootTaken(item.getGroundItem(), item.getGroundItem().getStackSize());
 		}
 	}
 	
-	public static Filter<GroundItem> getLootFilter() {
-		return new Filter<GroundItem>() {
-			public boolean accept(GroundItem item) {
-				if(Calculations.distance(Players.getLocal().getPosition(), item.getPosition()) < maxRadius) {
-					for(int id : lootIDs) {
-						if (item.getGroundItem().getId() == id) {
-							return true;
-						}
-					}
-					for(String name : lootNames) {
-						if(item.getGroundItem() != null && item.getGroundItem().getDefinition() != null && item.getGroundItem().getDefinition().getName() != null) {
-							if(item.getGroundItem().getDefinition().getName().toLowerCase().contains(name.toLowerCase())) {
-								return true;
-							}
-						}
-					}
-				}
-				return false;
-			}
-		};
-	}
+
+
 
 	public static void setMaxRadius(int radius) {
 		maxRadius = radius;

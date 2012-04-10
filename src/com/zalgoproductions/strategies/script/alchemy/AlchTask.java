@@ -1,10 +1,16 @@
 package com.zalgoproductions.strategies.script.alchemy;
 
+import com.zalgoproductions.util.Alchemy;
 import org.powerbot.concurrent.Task;
+import org.powerbot.game.api.methods.tab.Inventory;
+import org.powerbot.game.api.wrappers.node.Item;
 
-//TODO WRITE AFTER MAGIC API
 public class AlchTask implements Task {
 	public void run() {
-		//To change body of implemented methods use File | Settings | File Templates.
+		for(Item i : Inventory.getItems()) {
+			if(Alchemy.ALCH_FILTER.accept(i)) {
+				Alchemy.alch(i);
+			}
+		}
 	}
 }

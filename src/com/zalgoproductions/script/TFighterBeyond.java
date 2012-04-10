@@ -1,6 +1,8 @@
 package com.zalgoproductions.script;
 
 import com.zalgoproductions.resources.Fonts;
+import com.zalgoproductions.strategies.script.alchemy.AlchCondition;
+import com.zalgoproductions.strategies.script.alchemy.AlchTask;
 import com.zalgoproductions.strategies.script.antiban.AntibanCondition;
 import com.zalgoproductions.strategies.script.antiban.AntibanTask;
 import com.zalgoproductions.strategies.script.ammo.AmmoCondition;
@@ -136,6 +138,11 @@ public class TFighterBeyond extends ActiveScript implements PaintListener, Mouse
 		buryingStrategy.setLock(true);
 		buryingStrategy.setReset(true);
 		provide(buryingStrategy);
+
+		Strategy alchemyStrategy = new Strategy(new AlchCondition(), new AlchTask());
+		alchemyStrategy.setLock(true);
+		buryingStrategy.setReset(true);
+		provide(alchemyStrategy);
 		
 		Strategy attackStrategy = new Strategy(new AttackCondition(), new AttackTask());
 		attackStrategy.setLock(true);
@@ -150,7 +157,7 @@ public class TFighterBeyond extends ActiveScript implements PaintListener, Mouse
 
 		if(Paint.shouldPaint()) {
 			g.setColor(Color.GREEN);
-			for(Npc npc : Npcs.getLoaded(Attacking.getNpcFilter())) {   				
+			for(Npc npc : Npcs.getLoaded(Attacking.NPC_FILTER)) {
 				Polygon[] polygons = npc.getPosition().getBounds();
 				for(Polygon p : polygons) {
 					g.drawPolygon(p);

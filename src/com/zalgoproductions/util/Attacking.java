@@ -13,10 +13,10 @@ import org.powerbot.game.api.wrappers.node.Item;
 import org.powerbot.game.api.wrappers.widget.Widget;
 import org.powerbot.game.api.wrappers.widget.WidgetChild;
 
-public class Attacking {
+public class Attacking {    	
+	private static int[] npcIDs = {};
+	private static String[] npcNames = {};
 	public static boolean utilizeMultiwayCombat = false;
-	public static int[] npcIDs = {};
-	public static String[] npcNames = {};
 	public static Item[] playerEquipment = {};
 
 	private static int[] specWeaponUsage = {10, 25, 33, 35, 45, 50, 55, 60, 80, 85, 100};
@@ -43,26 +43,34 @@ public class Attacking {
 	
 	private static int maxRadius = 10; //TODO CHANGE TO INT MAX_VALUE AFTER WALKING IS FIXED
 
-	public static Filter<Npc> getNpcFilter() {
-		return new Filter<Npc>() {
-			public boolean accept(Npc npc) {
-				if(npc.validate() && npc.getHpPercent() > 0 && Calculations.distance(Players.getLocal().getPosition(), npc.getPosition()) < maxRadius &&
-						(utilizeMultiwayCombat || !npc.isInCombat() && npc.getInteracting() == null)) {
-					for(int id : npcIDs) {
-						if (npc.getId() == id) {
-							return true;
+	public static final Filter<Npc> NPC_FILTER =
+			new Filter<Npc>() {
+				public boolean accept(Npc npc) {
+					if(npc.validate() && npc.getHpPercent() > 0 && Calculations.distance(Players.getLocal().getPosition(), npc.getPosition()) < maxRadius &&
+							(utilizeMultiwayCombat || !npc.isInCombat() && npc.getInteracting() == null)) {
+						for(int id : npcIDs) {
+							if (npc.getId() == id) {
+								return true;
+							}
+						}
+						for(String name : npcNames) {
+							if(npc.getName().toLowerCase().contains(name.toLowerCase())) {
+								return true;
+							}
 						}
 					}
-					for(String name : npcNames) {
-						if(npc.getName().toLowerCase().contains(name.toLowerCase())) {
-							return true;
-						}
-					}
+					return false;
 				}
-				return false;
-			}
-		};
+			};
+	
+	public static void setNpcIDs(int[] ids) {
+		npcIDs = ids;
 	}
+	
+	public static void setNpcNames(String[] names) {
+		npcNames = names;
+	}
+
 
 	public static void initializeEquipment() {
 		if (Tabs.getCurrent() != Tabs.EQUIPMENT) {
