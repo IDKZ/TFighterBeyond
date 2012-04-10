@@ -148,7 +148,7 @@ public class TFighterBeyond extends ActiveScript implements PaintListener, Mouse
 		g.setColor(Color.WHITE);
 		g.setFont(Fonts.BATMAN_FONT.deriveFont(Font.PLAIN, 16));
 		if(Paint.shouldPaint()) {
-			g.setColor(Color.GREEN);                  `
+			g.setColor(Color.GREEN);
 			for(Npc npc : Npcs.getLoaded(Attacking.getNpcFilter())) {   				
 				Polygon[] polygons = npc.getPosition().getBounds();
 				for(Polygon p : polygons) {
