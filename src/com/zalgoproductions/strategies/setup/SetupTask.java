@@ -41,7 +41,7 @@ public class SetupTask implements Task {
 //		private final File file;
 
 		
-		private JCheckBox useMulti, useSafe, disableSpecials, lootAbove, onlyLoot, useBones, usePrayer,
+		private JCheckBox useMulti, useSafe, useBones, usePrayer,
 				depositLoot, depositBones, withdrawFood, enableBanking;
 
 		private JTextField npcBox, lootBox, lootAboveBox, alchBox, foodBox;

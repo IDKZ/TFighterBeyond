@@ -2,6 +2,7 @@ package com.zalgoproductions.util.paint.displays;
 
 import com.zalgoproductions.resources.Fonts;
 import com.zalgoproductions.script.TFighterBeyond;
+import com.zalgoproductions.util.Looting;
 import com.zalgoproductions.util.paint.Display;
 import com.zalgoproductions.util.paint.Paint;
 import com.zalgoproductions.util.SkillWatcher;
@@ -53,14 +54,14 @@ public class TFighterDisplay implements Display {
 
 		}
 
-//		y = paint.chat.getAbsoluteY();
-//		g.setFont(Fonts.BATMAN_FONT.deriveFont(Font.PLAIN, 12));
-//		g.drawString("Loot taken:", x + 280, y += g.getFontMetrics().getMaxAscent() + 30);
-//		g.setFont(new Font("Arial", Font.PLAIN, 11));
-//
-//		Map<String, Integer> loot = Looting.getLootTaken();
-//		for (Map.Entry<String, Integer> entry : loot.entrySet()) {
-//			g.drawString(entry.getKey() + " x" + entry.getValue(), x + 285, y += g.getFontMetrics().getMaxAscent());
-//		}
+		y = Paint.chat.getAbsoluteY();
+		g.setFont(Fonts.BATMAN_FONT.deriveFont(Font.PLAIN, 12));
+		g.drawString("Loot taken:", x + 280, y += g.getFontMetrics().getMaxAscent() + 30);
+		g.setFont(new Font("Arial", Font.PLAIN, 11));
+
+		Map<String, Integer> loot = Looting.getLootTaken();
+		for (Map.Entry<String, Integer> entry : loot.entrySet()) {
+			g.drawString(entry.getKey() + " x" + entry.getValue(), x + 320, y += g.getFontMetrics().getMaxAscent());
+		}
 	}  	
 }
