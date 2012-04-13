@@ -6,23 +6,36 @@ import org.powerbot.game.api.util.Filter;
 import org.powerbot.game.api.wrappers.node.Item;
 
 public class Eating {
-	private static int eatPercent = 60;
+	private static int eatPercent = 70;
+	private static int[] eatIds = {};
+	private static String[] eatNames = {};
 
 	public static final Filter<Item> foodFilter = new Filter<Item>() {
 		public boolean accept(Item item) {
-			if(item.getDefinition() != null) {
-				for(String action : item.getDefinition().getActions()) {
-					if(action.contains("Eat")) {
-						return true;
-					}
+			for(int id : eatIds) {
+				if (item.getId() == id) {
+					return true;
+				}
+			}
+			for(String name : eatNames) {
+				if(item.getName() != null && item.getName().toLowerCase().contains(name.toLowerCase())) {
+					return true;
 				}
 			}
 			return false;
 		}
 	};
+
+	public static void setEatIds(int[] ids) {
+		eatIds = ids;
+	}
+
+	public static void setEatNames(String[] names) {
+		eatNames = names;
+	}
 	
 	public static int getCurrentPercent() {
-		int hpLevel = Skills.getLevel(3);
+		int hpLevel = Skills.getLevel(Skills.CONSTITUTION);
 		int totalHp = hpLevel * 10;
 		int currHp = Integer.parseInt(Widgets.get(748, 8).getText());
 		double decimal = totalHp / currHp;

@@ -8,6 +8,8 @@ import org.powerbot.concurrent.Task;
 import org.powerbot.game.api.methods.interactive.Players;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,10 +43,12 @@ public class SetupTask implements Task {
 //		private final File file;
 
 		
-		private JCheckBox useMulti, useSafe, useBones, usePrayer,
-				depositLoot, depositBones, withdrawFood, enableBanking;
+		private JCheckBox useMulti, useSafe, useBones, usePrayer;
 
 		private JTextField npcBox, lootBox, lootAboveBox, alchBox, foodBox;
+
+		//private JLabel eatPercentLabel;
+		//private JSlider foodSlider;
 
 		private JButton start;
 
@@ -173,91 +177,37 @@ public class SetupTask implements Task {
 					loot.add(Box.createRigidArea(new Dimension(1,1)));
 				}
 
-//				JPanel bank = new JPanel();
-//				bank.setLayout(new BoxLayout(bank, BoxLayout.PAGE_AXIS));
-//				bank.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+//				JPanel food = new JPanel();
+//				food.setLayout(new BoxLayout(food, BoxLayout.PAGE_AXIS));
+//				food.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 //				{
-//					JLabel title = new JLabel("Bank");
-//					JLabel bankLabel1 = new JLabel("WARNING: EXPERIMENTAL");
-//					JLabel bankLabel2 = new JLabel("ONLY WORKS ON GROUND LEVEL");
+//					JLabel foodLabel = new JLabel("Food Settings");
+//					JLabel foodBoxLabel = new JLabel("Enter the ids/ names of items to eat");
+//					foodBox = new JTextField("");
+//					foodSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 70);
+//					eatPercentLabel = new JLabel("Eat at " + 70 + "%");
 //
-//					enableBanking = new JCheckBox("Enable banking");
-//					depositLoot = new JCheckBox("Deposit Loot");
-//					depositBones = new JCheckBox("Deposit Bones");
-//					withdrawFood = new JCheckBox("Withdraw Food");
-//					foodBox = new JTextField("5,7");
+//					foodLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+//					foodBoxLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+//					foodBox.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+//					eatPercentLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+//					foodSlider.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 //
-//					title.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-//					bankLabel1.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-//					bankLabel2.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-//					enableBanking.setAlignmentX(JCheckBox.CENTER_ALIGNMENT);
-//					depositLoot.setAlignmentX(JCheckBox.CENTER_ALIGNMENT);
-//					depositBones.setAlignmentX(JCheckBox.CENTER_ALIGNMENT);
-//					withdrawFood.setAlignmentX(JCheckBox.CENTER_ALIGNMENT);
-//					foodBox.setAlignmentX(JTextField.CENTER_ALIGNMENT);
+//					foodSlider.setMajorTickSpacing(10);
+//					foodSlider.setMinorTickSpacing(1);
+//					foodSlider.addChangeListener(sliderChange);
 //
-//					foodBox.setMaximumSize(new Dimension(Integer.MAX_VALUE, foodBox.getPreferredSize().height));
+//					foodBox.setMaximumSize(new Dimension(Integer.MAX_VALUE, alchBox.getPreferredSize().height));
+//
 //					foodBox.setColumns(25);
 //
-//					enableBanking.addActionListener(disableAllBankingOptions);
-//					depositLoot.addActionListener(disableDepositBones);
-//					withdrawFood.addActionListener(disableFoodBox);
-//
-//					if (props.getProperty("depositLoot") != null) {
-//						if (props.getProperty("depositLoot").equals("true"))
-//							depositLoot.setSelected(true);
-//					}
-//
-//					if (props.getProperty("depositBones") != null) {
-//						if (props.getProperty("depositBones").equals("true"))
-//							depositBones.setSelected(true);
-//					}
-//
-//					if (props.getProperty("withdrawFood") != null) {
-//						if (props.getProperty("withdrawFood").equals("true")) {
-//							withdrawFood.setSelected(true);
-//							foodBox.setEnabled(true);
-//						} else {
-//							foodBox.setEnabled(false);
-//						}
-//					}
-//
-//					if (props.getProperty("enableBanking") != null) {
-//						if (props.getProperty("enableBanking").equals("true")) {
-//							enableBanking.setSelected(true);
-//						} else {
-//							depositLoot.setSelected(false);
-//							depositBones.setSelected(false);
-//							withdrawFood.setSelected(false);
-//							depositLoot.setEnabled(false);
-//							depositBones.setEnabled(false);
-//							withdrawFood.setEnabled(false);
-//							foodBox.setEnabled(false);
-//						}
-//					} else {
-//						depositLoot.setSelected(false);
-//						depositBones.setSelected(false);
-//						withdrawFood.setSelected(false);
-//						depositLoot.setEnabled(false);
-//						depositBones.setEnabled(false);
-//						withdrawFood.setEnabled(false);
-//						foodBox.setEnabled(false);
-//					}
-//
-//					bank.add(title);
-//					bank.add(new JLabel(" "));
-//					bank.add(bankLabel1);
-//					bank.add(bankLabel2);
-//					bank.add(new JLabel(" "));
-//					bank.add(enableBanking);
-//					bank.add(new JLabel(" "));
-//					bank.add(depositLoot);
-//					bank.add(depositBones);
-//					bank.add(new JLabel(" "));
-//					bank.add(withdrawFood);
-//					bank.add(foodBox);
-//					bank.add(Box.createVerticalGlue());
-//					bank.add(Box.createRigidArea(new Dimension(1,1)));
+//					food.add(foodLabel);
+//					food.add(new JLabel(" "));
+//					food.add(foodBoxLabel);
+//					food.add(foodBox);
+//					food.add(new JLabel(" "));
+//					food.add(eatPercentLabel);
+//					food.add(foodSlider);
 //				}
 
 				JPanel misc = new JPanel();
@@ -306,6 +256,7 @@ public class SetupTask implements Task {
 				JTabbedPane tabbedPane = new JTabbedPane();
 				tabbedPane.addTab("Combat", combat);
 				tabbedPane.addTab("Loot", loot);
+//				tabbedPane.addTab("Food", food);
 //				tabbedPane.addTab("Bank", bank);
 				tabbedPane.addTab("Misc.", misc);
 				center.add(tabbedPane);
@@ -366,7 +317,7 @@ public class SetupTask implements Task {
 //			}
 //		}
 
-		private final ActionListener onStart = new ActionListener() {
+		private final ActionListener onStart =  new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				saveProperties();
 				Attacking.utilizeMultiwayCombat = useMulti.isSelected();
@@ -396,7 +347,7 @@ public class SetupTask implements Task {
 						}
 					}
 				}
-				Attacking.setNpcIDs(idList.size() > 0 ? toIntArray(idList.toArray(new Integer[idList.size()])) : new int[0]);
+				Attacking.setNpcIds(idList.size() > 0 ? toIntArray(idList.toArray(new Integer[idList.size()])) : new int[0]);
 				Attacking.setNpcNames(nameList.size() > 0 ? nameList.toArray(new String[nameList.size()]) : new String[0]);
 
 				ids = lootBox.getText().split(",");
@@ -413,7 +364,7 @@ public class SetupTask implements Task {
 					}
 				}
 
-				Looting.setLootIDs(idList.size() > 0 ? toIntArray(idList.toArray(new Integer[idList.size()])) : new int[0]);
+				Looting.setLootIds(idList.size() > 0 ? toIntArray(idList.toArray(new Integer[idList.size()])) : new int[0]);
 				Looting.setLootNames(nameList.size() > 0 ? nameList.toArray(new String[nameList.size()]) : new String[0]);
 
 				ids = alchBox.getText().split(",");
@@ -430,11 +381,8 @@ public class SetupTask implements Task {
 					}
 				}
 
-				if(idList.size() == 0 && nameList.size() == 0)
-					Alchemy.doAlchemy = false;
-				else
-					Alchemy.doAlchemy = true;
-				Alchemy.setAlchIDs(idList.size() > 0 ? toIntArray(idList.toArray(new Integer[idList.size()])) : new int[0]);
+				Alchemy.doAlchemy = !(idList.size() == 0 && nameList.size() == 0);
+				Alchemy.setAlchIds(idList.size() > 0 ? toIntArray(idList.toArray(new Integer[idList.size()])) : new int[0]);
 				Alchemy.setAlchNames(nameList.size() > 0 ? nameList.toArray(new String[nameList.size()]) : new String[0]);
 
 
@@ -486,6 +434,13 @@ public class SetupTask implements Task {
 			}
 		};
 
+//		private final ChangeListener sliderChange = new ChangeListener() {
+//			public void stateChanged(ChangeEvent e) {
+//				eatPercentLabel.setText("Eat at " + ((JSlider)e.getSource()).getValue() + "%");
+//				eatPercentLabel.revalidate();
+//				eatPercentLabel.repaint();
+//			}
+//		};
 ////		private ActionListener disableAllBankingOptions = new ActionListener() {
 ////			public void actionPerformed(ActionEvent e) {
 ////				AbstractButton abstractButton = (AbstractButton) e.getSource();

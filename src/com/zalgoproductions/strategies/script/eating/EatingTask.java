@@ -1,5 +1,6 @@
 package com.zalgoproductions.strategies.script.eating;
 
+import com.zalgoproductions.util.Eating;
 import org.powerbot.concurrent.Task;
 import org.powerbot.game.api.methods.tab.Inventory;
 import org.powerbot.game.api.wrappers.node.Item;
@@ -9,15 +10,10 @@ public class EatingTask implements Task {
 		Item[] foods = Inventory.getItems();
 		Item toEat = null;
 		
-outerLoop:
 		for(Item food : foods) {
-			if(food != null && food.getDefinition() != null) {
-				for(String action : food.getDefinition().getActions()) {
-					if(action.equalsIgnoreCase("Eat")) {
-						toEat = food;
-						break outerLoop;
-					}
-				}
+			if(Eating.foodFilter.accept(food)) {
+				toEat = food;
+				break;
 			}
 		}
 

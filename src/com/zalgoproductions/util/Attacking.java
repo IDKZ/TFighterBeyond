@@ -14,13 +14,13 @@ import org.powerbot.game.api.wrappers.widget.Widget;
 import org.powerbot.game.api.wrappers.widget.WidgetChild;
 
 public class Attacking {    	
-	private static int[] npcIDs = {};
+	private static int[] npcIds = {};
 	private static String[] npcNames = {};
 	public static boolean utilizeMultiwayCombat = false;
 	public static Item[] playerEquipment = {};
 
-	private static int[] specWeaponUsage = {10, 25, 33, 35, 45, 50, 55, 60, 80, 85, 100};
-	private static String[][] specWeapons = {
+	private static final int[] specWeaponUsage = {10, 25, 33, 35, 45, 50, 55, 60, 80, 85, 100};
+	private static final String[][] specWeapons = {
 			{"Rune thrownaxe", "Rod of ivandis"},
 			{"Dragon Dagger", "Dragon dagger (p)", "Dragon dagger (p+)",
 					"Dragon dagger (p++)", "Dragon Mace", "Dragon Spear",
@@ -48,7 +48,7 @@ public class Attacking {
 				public boolean accept(Npc npc) {
 					if(npc.validate() && npc.getHpPercent() > 0 && Calculations.distance(Players.getLocal().getPosition(), npc.getPosition()) < maxRadius &&
 							(utilizeMultiwayCombat || !npc.isInCombat() && npc.getInteracting() == null)) {
-						for(int id : npcIDs) {
+						for(int id : npcIds) {
 							if (npc.getId() == id) {
 								return true;
 							}
@@ -63,8 +63,8 @@ public class Attacking {
 				}
 			};
 	
-	public static void setNpcIDs(int[] ids) {
-		npcIDs = ids;
+	public static void setNpcIds(int[] ids) {
+		npcIds = ids;
 	}
 	
 	public static void setNpcNames(String[] names) {

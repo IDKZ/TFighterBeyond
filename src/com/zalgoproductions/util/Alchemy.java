@@ -13,7 +13,7 @@ import org.powerbot.game.api.wrappers.widget.Widget;
 public class Alchemy {
 	public static boolean doAlchemy = false;
 
-	private static int[] alchIDs = {};
+	private static int[] alchIds = {};
 	private static String[] alchNames = {};
 	private static final int NATURE_RUNE = 561;
 	private static final int FIRE_RUNE = 554;
@@ -27,7 +27,7 @@ public class Alchemy {
 								return true;
 							}
 						}
-						for ( int n : alchIDs) {
+						for ( int n : alchIds) {
 							if( n == i.getId()) {
 								return true;
 							}
@@ -37,8 +37,8 @@ public class Alchemy {
 				}
 			};
 
-	public static void setAlchIDs(int[] ids) {
-		alchIDs = ids;
+	public static void setAlchIds(int[] ids) {
+		alchIds = ids;
 	}
 	
 	public static void setAlchNames(String[] names) {

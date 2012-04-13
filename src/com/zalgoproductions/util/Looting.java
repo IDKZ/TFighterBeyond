@@ -19,7 +19,7 @@ public class Looting {
 	private static int[] lootIDs = {};
 	private static String[] lootNames = {};
 	private static int maxRadius = 10; //TODO SET TO INTEGER.MAX_VALUE AFTER WALKING IS FIXED
-	private static HashMap<String, Integer> lootTaken = new HashMap<String, Integer>();
+	private static final HashMap<String, Integer> lootTaken = new HashMap<String, Integer>();
 
 	public static final Filter<GroundItem> LOOT_FILTER =
 			new Filter<GroundItem>() {
@@ -42,7 +42,7 @@ public class Looting {
 				}
 			};
 
-	public static void setLootIDs(int[] ids) {
+	public static void setLootIds(int[] ids) {
 		lootIDs = ids;
 	}
 	
@@ -82,7 +82,7 @@ public class Looting {
 		maxRadius = radius;
 	}
 	
-	public static void addLootTaken(Item itemToAdd, int amount) {
+	private static void addLootTaken(Item itemToAdd, int amount) {
 		String name = itemToAdd.getName();
 		if (lootTaken.get(name) != null) {
 			int newAmount = amount + lootTaken.get(name);
